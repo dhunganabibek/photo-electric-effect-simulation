@@ -30,7 +30,7 @@ class Photon:
     # All photon objects are held in this static one-dimensional list
     PhotonList = []
     # Constant value for radius of each photon in pixels
-    Radius = 4
+    Radius = 10
     # Static value that keeps track of how many frames it has been since the last photon was emitted
     LastEmitted = 0
 
@@ -111,7 +111,7 @@ class Electron:
     ElectronList = []
     # The one-dimensional list of all electrons that have hit the right metal plate in the last second
     # Constant value used in drawing the circle that represents the electron
-    Radius = 5
+    Radius = 10
     # Constant value for the mass of an electron
     Mass = 9.11 * math.pow(10, -31)
 
@@ -189,18 +189,19 @@ pygame.init()
 
 # These variables hold the dimensions of the screen, should be kept constant
 display_width = 800
-display_height = 600
+display_height = 800
 
 # Colour definitions for referring to later
-black = (0, 0, 0)
+black = (2, 117, 216)
 white = (255, 255, 255)
-grey = (100, 100, 100)
-lightGrey = (180, 180, 180)
+grey = (2, 117, 216)
+lightGrey = (255, 255, 255)
 
 # Initialise main drawing surface
 screen = pygame.display.set_mode((display_width, display_height))
 # Set title of window
-pygame.display.set_caption("Photoelectric Effect Simulator")
+pygame.display.set_caption("Photoelectric Effect for Bio-inspired design")
+
 # Create clock object for timing
 clock = pygame.time.Clock()
 
@@ -430,29 +431,25 @@ def game_loop():
     intensity = 0
 
     # Appends default metals to the metal list
-    Metal.MetalList.append(Metal("Sodium", 3.65 * math.pow(10, -19), (100, 100, 100)))
-    Metal.MetalList.append(Metal("Copper", 7.53 * math.pow(10, -19), (145, 88, 4)))
-    Metal.MetalList.append(Metal("Zinc", 6.89 * math.pow(10, -19), (185, 195, 185)))
-    Metal.MetalList.append(Metal("Magnesium", 5.90 * math.pow(10, -19), (205, 205, 205)))
+    Metal.MetalList.append(Metal("Silicon", 3.65 * math.pow(10, -19), (0, 88, 4)))
+    Metal.MetalList.append(Metal("Photosynthesis", 1.65 * math.pow(10, -26), (100, 100, 100)))
+    
+    
     # Sets starting metal to the first one in the list (sodium)
     current_metal = Metal.MetalList[0]
 
     # Defines the fonts that the program will use for drawing text
-    my_font = pygame.font.Font(None, 32)
+    my_font = pygame.font.Font(None, 45)
     small_font = pygame.font.Font(None, 25)
 
     # Text objects used to describe the different GUI elements
-    wave_txt = my_font.render("Wavelength: ", 1, (0, 0, 0))
-    wave_txt2 = my_font.render("nm", 1, (0, 0, 0))
-    intensity_txt = my_font.render("Intensity: ", 1, black)
-    intensity_txt2 = my_font.render("%", 1, black)
     metal_txt = my_font.render("Metal: ", 1, black)
     stop_txt = my_font.render("Stopping Voltage: ", 1, black)
     stop_txt2 = my_font.render("V", 1, black)
 
     # Rectangles on left and right to represent metals
-    left_rect = MetalRect(10, 400, 50, 150)
-    right_rect = MetalRect(740, 400, 50, 150)
+    left_rect = MetalRect(40, 400, 15, 250)
+    right_rect = MetalRect(740, 400, 15, 250)
 
     # Wavelength Slider bar creation
     wv_slider = dan_gui.Slider(150, 5, 200, 25, small_font, (100, 850))
@@ -467,13 +464,13 @@ def game_loop():
     stop_slider = dan_gui.Slider(300, 550, 200, 25, small_font, (-3, 3), 0.5, 1)
     stop_voltage = stop_slider.get_pos()
     # Dropdown menu creation
-    drop = dan_gui.DropDown(90, 90, 120, 25, Metal.MetalNames, my_font)
+    drop = dan_gui.DropDown(50, 100, 320, 25, Metal.MetalNames, my_font)
     # Loads custom metals from the file
     drop = load_custom_metals(drop)
     # 'Create new metal' button creation
     btn = dan_gui.Button(250, 90, my_font, "Create New Metal")
     # Adding electron speed text to screen
-    speed_obj = my_font.render("Average speed: 0 ms^-1", 1, (0, 0, 0))
+    speed_obj = my_font.render("PhotoElectric Effect using Silicon and Photosynthesis", 4, (2, 117, 216))
 
     # Settings button
     settings_btn = dan_gui.ImageButton(730, 10, my_font, "options")
@@ -487,7 +484,7 @@ def game_loop():
     surf.set_alpha(set_light_alpha(wavelength, intensity))
 
     # Image for the lamp
-    lamp_img = pygame.image.load("img/lamp.png")
+    lamp_img = pygame.image.load("img/sun.png")
 
     # Creating menu
     cnm_menu = dan_gui.Menu(200, 200, 450, 280, my_font, "Create New Metal")
@@ -814,7 +811,7 @@ def game_loop():
         emit_photon(current_metal, intensity, wavelength)
 
         # Draws white over previous frame
-        screen.fill(white)
+        screen.fill('#202A44')
         # ALL DRAWING BELOW HERE
         # For every photon in the PhotonList
         for photon in Photon.PhotonList:
@@ -841,47 +838,41 @@ def game_loop():
             # Converts kinetic energy to speed
             speed = round(math.sqrt((2*average_ke)/Electron.Mass))
             # Creates a pygame Text object for rendering the speed
-            speed_obj = small_font.render(("Average Speed: " + str(speed) + " ms^-1"), 1, black)
+            # speed_obj = small_font.render(("Average Speed: " + str(speed) + " ms^-1"), 1, black)
 
         # Draws background for wavelength, intensity and current metal selectors
-        pygame.draw.rect(screen, lightGrey, (0, 0, 450, 200))
+        # pygame.draw.rect(screen, lightGrey, (0, 0, 450, 200))
         # Draws border around bottom and right sides of box
-        pygame.draw.lines(screen, black, False, ((0, 200), (450, 200), (450, 0)), 2)
-        # Drawing average speed
-        screen.blit(speed_obj, (5, 150))
+        # pygame.draw.lines(screen, black, False, ((0, 200), (450, 200), (450, 0)), 2)
+        # # Drawing average speed
+        screen.blit(speed_obj, (5, 50))
         # Left rectangle
         left_rect.draw(screen, current_metal.colour)
         # Right rectangle
-        right_rect.draw(screen, grey)
-        # Wavelength slider prompt
-        screen.blit(wave_txt, (5, 5))
+        right_rect.draw(screen, current_metal.colour)
+       
         # Wavelength slider
-        wv_slider.draw(screen)
-        # Wavelength slider suffix
-        screen.blit(wave_txt2, (400, 5))
-        # Intensity slider prompt
-        screen.blit(intensity_txt, (5, 40))
-        # Intensity slider suffix
-        screen.blit(intensity_txt2, (400, 40))
-        # Draw intensity slider
-        int_slider.draw(screen)
+        # wv_slider.draw(screen)
+      
+        # # Draw intensity slider
+        # int_slider.draw(screen)
         # Stopping voltage slider
-        stop_slider.draw(screen)
+        # stop_slider.draw(screen)
         # Stopping voltage slider prompt
-        screen.blit(stop_txt, (100, 550))
-        # Stopping voltage slider suffix
-        screen.blit(stop_txt2, (540, 550))
-        # Metal Text
-        screen.blit(metal_txt, (5, 90))
+        # screen.blit(stop_txt, (100, 550))
+        # # Stopping voltage slider suffix
+        # screen.blit(stop_txt2, (540, 550))
+        # # Metal Text
+        # screen.blit(metal_txt, (5, 90))
         # Drop down box
         drop.draw(screen)
         # Draw button that opens 'Create new metal' menu
-        btn.draw(screen)
+        # btn.draw(screen)
         # Draws save and load buttons to screen
-        save_button.draw(screen)
-        load_button.draw(screen)
+        # save_button.draw(screen)
+        # load_button.draw(screen)
         # Draw settings button
-        settings_btn.draw(screen)
+        # settings_btn.draw(screen)
 
         # Draws light from lamp to screen
         # Gets alpha (transparency) value for light
@@ -889,16 +880,16 @@ def game_loop():
         # Combines colour with alpha in 1 tuple
         light_colour = (r, g, b, alpha)
         # Draws light to transparency enabled surface
-        pygame.draw.polygon(surf, light_colour, ((60, 400), (60, 550), (700, 380), (512, 202)))
-        # Draws transparent surface to screen
-        screen.blit(surf, (0, 0))
-        # Draws lamp image
+        # pygame.draw.polygon(surf, light_colour, ((60, 400), (60, 550), (700, 380), (512, 202)))
+        # # Draws transparent surface to screen
+        # screen.blit(surf, (0, 0))
+        # Draws F image
         screen.blit(lamp_img, (500, 150))
 
         # Draws menus
-        cnm_menu.draw(screen)
-        settings_menu.draw(screen)
-        store_menu.draw(screen)
+        # cnm_menu.draw(screen)
+        # # settings_menu.draw(screen)
+        # store_menu.draw(screen)
 
         # Updates the display
         pygame.display.update()

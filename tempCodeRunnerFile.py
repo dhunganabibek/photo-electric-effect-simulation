@@ -1,0 +1,1 @@
+pygame.draw.lines(screen, black, False, ((0, 200), (450, 200), (450, 0)), 2)

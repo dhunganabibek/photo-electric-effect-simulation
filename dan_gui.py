@@ -3,10 +3,10 @@ import pygame
 import math
 
 # RGB colour definitions for referring to later
-black = (0, 0, 0)
+black = (2, 117, 216)
 white = (255, 255, 255)
-grey = (100, 100, 100)
-darkGrey = (50, 50, 50)
+grey = (2, 117, 216)
+darkGrey = (128, 128, 128)
 light_grey = (130, 130, 130)
 
 
@@ -19,7 +19,7 @@ class Element:
     # font = The Pygame Font object used for rendering text
     # bg_colour = The colour of background parts of the element as an RGB tuple
     # text_colour = The colour of text of the element as an RGB tuple
-    def __init__(self, x, y, width, height, font, back_colour=grey, text_colour=black):
+    def __init__(self, x, y, width, height, font, back_colour=black, text_colour=black):
         # x and y can be a decimal value as these are not the values used in drawing
         self.x = x
         self.y = y
