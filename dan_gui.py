@@ -8,6 +8,7 @@ white = (255, 255, 255)
 grey = (2, 117, 216)
 darkGrey = (128, 128, 128)
 light_grey = (130, 130, 130)
+light_blue =(255,255,255)
 
 
 # Base/parent class used for all other classes
@@ -98,7 +99,7 @@ class DropDown(Element):
     def __init__(self, x, y, width, height, data, font):
         # Calls its parent's init method to get all parent attributes
         Element.__init__(self, x, y, width, height, font)
-        self.bg_colour = light_grey
+        self.bg_colour = light_blue
         self.data = data
         self.current_opt = 0
         self.button_text = self.font.render(self.data[self.current_opt], 1, black)

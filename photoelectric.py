@@ -464,13 +464,15 @@ def game_loop():
     stop_slider = dan_gui.Slider(300, 550, 200, 25, small_font, (-3, 3), 0.5, 1)
     stop_voltage = stop_slider.get_pos()
     # Dropdown menu creation
-    drop = dan_gui.DropDown(50, 100, 320, 25, Metal.MetalNames, my_font)
+    drop = dan_gui.DropDown(180, 100, 420, 45, Metal.MetalNames, my_font)
     # Loads custom metals from the file
     drop = load_custom_metals(drop)
     # 'Create new metal' button creation
     btn = dan_gui.Button(250, 90, my_font, "Create New Metal")
     # Adding electron speed text to screen
-    speed_obj = my_font.render("PhotoElectric Effect using Silicon and Photosynthesis", 4, (2, 117, 216))
+    speed_obj = my_font.render("PhotoElectric Effect using Silicon and Photosynthesis", 10, (255, 255, 255))
+    speed_obj1 = my_font.render("Number of electron ejected from the surface", 10, (255, 255, 255))
+    speed_obj3 = my_font.render("Watts up with Plants?",10, (255, 255, 255))
 
     # Settings button
     settings_btn = dan_gui.ImageButton(730, 10, my_font, "options")
@@ -846,6 +848,8 @@ def game_loop():
         # pygame.draw.lines(screen, black, False, ((0, 200), (450, 200), (450, 0)), 2)
         # # Drawing average speed
         screen.blit(speed_obj, (5, 50))
+        screen.blit(speed_obj1, (60, 700))
+        screen.blit(speed_obj3, (220, 15))
         # Left rectangle
         left_rect.draw(screen, current_metal.colour)
         # Right rectangle
@@ -880,7 +884,7 @@ def game_loop():
         # Combines colour with alpha in 1 tuple
         light_colour = (r, g, b, alpha)
         # Draws light to transparency enabled surface
-        # pygame.draw.polygon(surf, light_colour, ((60, 400), (60, 550), (700, 380), (512, 202)))
+        # pygame.draw.polygon(surf, light_colour, ((s, 400), (60, 550), (700, 380), (512, 202)))
         # # Draws transparent surface to screen
         # screen.blit(surf, (0, 0))
         # Draws F image
